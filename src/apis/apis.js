@@ -9,8 +9,8 @@ const api = axios.create({
 });
 
 export const apis = {
-  //?_page=${1}&_limit=${4}&_order=desc&_sort=id
   getComments: () => api.get(`/comments`),
+  getPagenation: (page) => api.get(`/comments?_page=${page}&_limit=4&_order=desc&_sort=id`),
   getCommentDetail: (commentId) => api.get(`/comments/${commentId}`),
   postComment: (comment) => api.post(`/comments`, comment),
   putComment: (comment, commentId) => api.put(`/comments/${commentId}`, comment),
