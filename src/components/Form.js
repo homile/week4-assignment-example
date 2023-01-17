@@ -32,27 +32,41 @@ function Form() {
 
   const [comment, setComment] = useState({
     profile_url: "https://picsum.photos/id/1/50/50",
-    author: "abc_1",
-    content: "UI 테스트는 어떻게 진행하나요",
-    createdAt: "2022-03-01",
+    author: "",
+    content: "",
+    createdAt: "",
   });
+
+  const handleChange = (event) => {
+    const { value, name } = event.target;
+    setComment({ ...comment, [name]: value });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     apis.postComment(comment);
-    dispatch(commentsActions.getComments());
+    setTimeout(() => {
+      dispatch(commentsActions.getComments());
+    }, 200);
   };
 
   return (
     <FormStyle>
       <form>
-        <input type="text" name="profile_url" placeholder="https://picsum.photos/id/1/50/50" required />
+        <input
+          type="text"
+          name="profile_url"
+          onChange={handleChange}
+          placeholder="https://picsum.photos/id/1/50/50"
+          required
+        />
         <br />
-        <input type="text" name="author" placeholder="작성자" />
+        <input type="text" name="author" onChange={handleChange} placeholder="작성자" />
         <br />
-        <textarea name="content" placeholder="내용" required></textarea>
+        <textarea name="content" onChange={handleChange} placeholder="내용" required></textarea>
         <br />
-        <input type="text" name="createdAt" placeholder="2020-05-30" required />
+        <input type="text" name="createdAt" onChange={handleChange} placeholder="2020-05-30" required />
         <br />
         <button type="submit" onClick={handleSubmit}>
           등록
