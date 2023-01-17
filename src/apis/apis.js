@@ -14,5 +14,5 @@ export const apis = {
   getCommentDetail: (commentId) => api.get(`/comments/${commentId}`),
   postComment: (comment) => api.post(`/comments`, comment),
   putComment: (comment, commentId) => api.put(`/comments/${commentId}`, comment),
-  deleteComment: (commentId) => api.delete(`commentId/${commentId}`),
+  deleteComment: (commentId) => api.delete(`/comments/${commentId}`),
 };

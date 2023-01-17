@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { apis } from "../apis/apis";
 import { commentsActions } from "../redux/reducers/comments";
 
 const Comment = styled.div`
@@ -41,6 +42,12 @@ function CommentList() {
   const dispatch = useDispatch();
   const comments = useSelector((state) => state.comments.pagenationComments);
 
+  const handleDelete = (event, id) => {
+    event.preventDefault();
+    apis.deleteComment(id);
+    dispatch(commentsActions.getComments());
+  };
+
   useEffect(() => {
     dispatch(commentsActions.getComments());
   }, []);
@@ -57,7 +64,7 @@ function CommentList() {
 
       <Button>
         <a>수정</a>
-        <a>삭제</a>
+        <a onClick={(event) => handleDelete(event, comment.id)}>삭제</a>
       </Button>
 
       <hr />
