@@ -39,7 +39,7 @@ const Button = styled.div`
 
 function CommentList() {
   const dispatch = useDispatch();
-  const comments = useSelector((state) => state.comments.comments);
+  const comments = useSelector((state) => state.comments.pagenationComments);
 
   useEffect(() => {
     dispatch(commentsActions.getComments());

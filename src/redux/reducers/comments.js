@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   comments: [],
+  pagenationComments: [],
   error: null,
 };
 
@@ -14,7 +15,12 @@ const commentsSlice = createSlice({
       state.loading = true;
     },
     getCommentsSuccess: (state, action) => {
+      state.commentsLength = action.payload.length;
       state.comments = action.payload;
+      state.loading = false;
+    },
+    getPagenationSuccess: (state, action) => {
+      state.pagenationComments = action.payload;
       state.loading = false;
     },
     getCommentsError: (state, action) => {

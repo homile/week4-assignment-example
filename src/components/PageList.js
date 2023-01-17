@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { commentsActions } from "../redux/reducers/comments";
 
 const PageListStyle = styled.div`
   margin-bottom: 20px;
@@ -11,6 +13,7 @@ const Page = styled.button`
   border-radius: 0.25rem;
   font-size: 1rem;
   line-height: 1.5;
+  background-color: #ffffff;
   border: 1px solid lightgray;
   ${({ active }) =>
     active &&
@@ -19,15 +22,29 @@ const Page = styled.button`
         color: #fff;
   `}
   margin-right: 3px;
+  cursor: pointer;
 `;
 
 function PageList() {
+  const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
+
+  const commentsLength = useSelector((state) => state.comments.commentsLength);
+
+  useEffect(() => {
+    dispatch(commentsActions.getComments(page));
+  }, [page]);
+
   const pageArray = [];
 
-  pageArray.push(
-    // 임시로 페이지 하나만 설정했습니다.
-    <Page key="1">1</Page>
-  );
+  for (let i = 0; i < Math.ceil(commentsLength / 4); i++) {
+    pageArray.push(
+      <Page key={i + 1} active={i + 1 === page} onClick={() => setPage(i + 1)}>
+        {i + 1}
+      </Page>
+    );
+  }
 
   return <PageListStyle>{pageArray}</PageListStyle>;
 }
