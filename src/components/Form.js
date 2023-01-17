@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { apis } from "../apis/apis";
+import { commentsActions } from "../redux/reducers/comments";
 
 const FormStyle = styled.div`
   & > form {
@@ -25,15 +28,25 @@ const FormStyle = styled.div`
 `;
 
 function Form() {
+  const dispatch = useDispatch();
+
+  const [comment, setComment] = useState({
+    profile_url: "https://picsum.photos/id/1/50/50",
+    author: "abc_1",
+    content: "UI 테스트는 어떻게 진행하나요",
+    createdAt: "2022-03-01",
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    apis.postComment(comment);
+    dispatch(commentsActions.getComments());
+  };
+
   return (
     <FormStyle>
       <form>
-        <input
-          type="text"
-          name="profile_url"
-          placeholder="https://picsum.photos/id/1/50/50"
-          required
-        />
+        <input type="text" name="profile_url" placeholder="https://picsum.photos/id/1/50/50" required />
         <br />
         <input type="text" name="author" placeholder="작성자" />
         <br />
@@ -41,7 +54,9 @@ function Form() {
         <br />
         <input type="text" name="createdAt" placeholder="2020-05-30" required />
         <br />
-        <button type="submit">등록</button>
+        <button type="submit" onClick={handleSubmit}>
+          등록
+        </button>
       </form>
     </FormStyle>
   );
